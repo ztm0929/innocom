@@ -19,11 +19,14 @@ with open('data.csv', newline='', encoding='utf-8') as csvfile:
                 a_tag = div.find('a')
                 if a_tag and 'href' in a_tag.attrs:
                     pdf_link = a_tag['href']
+                    base_url = '/'.join(url.split('/')[:-1]) + '/'
+                    full_pdf_link = base_url + pdf_link
+                    unique_id = pdf_link.split('/')[0]
                     # 增加一个错误捕获
                     try:
                         with open('get_pdf.csv', 'a', newline='', encoding='utf-8') as csvfile:
                             writer = csv.writer(csvfile)
-                            writer.writerow([url, pdf_link])
+                            writer.writerow([full_pdf_link, unique_id])
                     except Exception as e:
                         print(f'写入CSV文件时出错: {e}')
                 else:
